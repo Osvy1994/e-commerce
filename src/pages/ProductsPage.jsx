@@ -66,11 +66,11 @@ export function ProductsPage() {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    gap: 4,
+                    gap: 10,
                   }}
                 >
                   <button onClick={() => removeQuantity(data)}>-</button>
-                  <p>{ data.quantity }</p>
+                  <p style={{fontSize: '2.4rem'}}>{cart.find(item => item.id === data.id)?.quantity || 0}</p>
                   <button onClick={() => addToCart(data)}>+</button>
                 </div>
                 <p>{data.text}</p>
