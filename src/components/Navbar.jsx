@@ -13,6 +13,8 @@ function Navbar() {
 
   const { cart: cartItem } = useCart()
 
+  const totalItems = cartItem.reduce((acc, item) => acc + item.quantity, 0)
+
   const handleScroll = () => {
     if (window.scrollY > 10) {
       setSticky(true)
@@ -50,7 +52,7 @@ function Navbar() {
       <div className={`cart-div ${cart ? 'open-cart' : 'closed-cart'}`}>
         <div className='cart-title-btn'>
           <h2 className='cart-full-h2'>
-            Your Shopping Cart ({cartItem.length})
+            Your Shopping Cart ({totalItems})
           </h2>
           <IconX onClick={openCart} />
         </div>
@@ -75,7 +77,7 @@ function Navbar() {
                 products
               </Link>
               <i
-                data-array-length={cartItem.length}
+                data-array-length={totalItems}
                 onClick={openCart}
                 className={`${
                   cartItem.length < 1 ? 'cart-icon' : 'cart-icon with-items'
@@ -86,7 +88,7 @@ function Navbar() {
             </div>
             <div className='hamburger-menu'>
               <i
-                data-array-length={cartItem.length}
+                data-array-length={totalItems}
                 onClick={openCart}
                 className={`hamburger-cart ${
                   cartItem.length < 1 ? 'cart-icon' : 'cart-icon with-items'

@@ -7,7 +7,7 @@ import { useCart } from '../hooks/useCart'
 
 export function ProductsPage() {
   const { updateCategory, updateMaxPrice, filters } = useFilters()
-  const { addToCart, cart, removeFromCart } = useCart()
+  const { addToCart, cart, removeFromCart, removeQuantity } = useCart()
 
   const checkProductInCart = product => {
     return cart.some(item => item.id === product.id)
@@ -61,6 +61,18 @@ export function ProductsPage() {
               </div>
               <div className='product-text'>
                 <h2>{data.description}</h2>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}
+                >
+                  <button onClick={() => removeQuantity(data)}>-</button>
+                  <p>{ data.quantity }</p>
+                  <button onClick={() => addToCart(data)}>+</button>
+                </div>
                 <p>{data.text}</p>
                 <p className='price'>${data.price}</p>
                 <button
