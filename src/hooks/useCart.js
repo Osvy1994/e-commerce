@@ -20,7 +20,6 @@ export const useCart = () => {
   }
 
   const removeQuantity = itemToDelete => {
-    // setCart(prevCart => prevCart.filter(item => item.id !== itemToDelete.id))
     setCart(prevCart =>
       prevCart.filter(item => {
         if (item.id === itemToDelete.id) {

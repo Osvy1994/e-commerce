@@ -6,19 +6,21 @@ import { useFilters } from '../hooks/useFilters'
 import { useCart } from '../hooks/useCart'
 import debounce from 'just-debounce-it'
 import { useState } from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export function ProductsPage() {
   const { updateCategory, updateMaxPrice, updateSearch, filters } = useFilters()
   const { addToCart, cart, removeFromCart, removeQuantity } = useCart()
   const [selectedCategory, setSelectedCategory] = useState('all')
 
-  const getButtonStyle = (category) => {
+  const getButtonStyle = category => {
     return selectedCategory === category
       ? { backgroundColor: '#333', color: 'white' }
       : {}
   }
 
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = category => {
     setSelectedCategory(category)
     updateCategory(category)
   }
@@ -157,6 +159,18 @@ export function ProductsPage() {
       </div>
       <Newsletter />
       <Footer />
+      <ToastContainer
+        position='bottom-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
     </div>
   )
 }
