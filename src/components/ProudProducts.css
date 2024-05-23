@@ -109,8 +109,6 @@ a {
 
 
 
-/* queries */
-
 @media (max-width:750px) {
     .products-grid {
         display: grid;

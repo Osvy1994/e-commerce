@@ -7,10 +7,13 @@ export const useFilters = () => {
   const updateCategory = newCategory => {
     setFilters({ ...filters, category: newCategory })
   }
+  const updateSearch = searchParam => {
+    setFilters({ ...filters, search: searchParam })
+  }
 
   const updateMaxPrice = newMaxPrice => {
     setFilters({ ...filters, maxPrice: newMaxPrice })
   }
 
-  return { updateCategory, updateMaxPrice, filters }
+  return { updateCategory, updateMaxPrice, updateSearch, filters }
 }

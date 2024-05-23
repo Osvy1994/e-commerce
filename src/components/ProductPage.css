@@ -96,7 +96,7 @@
   background-color: #e0e0e0;
 }
 
-.max-price-container {
+.filters {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -105,11 +105,25 @@
   gap: 10px;
 }
 
-.max-price-container label {
+.search-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 200px;
   font-size: 16px;
 }
 
-.max-price-container p {
+.filters-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.filters label {
+  font-size: 16px;
+}
+
+.filters p {
   font-size: 18px;
   color: #333;
 }

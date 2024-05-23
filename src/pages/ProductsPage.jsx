@@ -4,10 +4,24 @@ import Footer from '../components/Footer'
 import { items } from '../components/AllData'
 import { useFilters } from '../hooks/useFilters'
 import { useCart } from '../hooks/useCart'
+import debounce from 'just-debounce-it'
+import { useState } from 'react'
 
 export function ProductsPage() {
-  const { updateCategory, updateMaxPrice, filters } = useFilters()
+  const { updateCategory, updateMaxPrice, updateSearch, filters } = useFilters()
   const { addToCart, cart, removeFromCart, removeQuantity } = useCart()
+  const [selectedCategory, setSelectedCategory] = useState('all')
+
+  const getButtonStyle = (category) => {
+    return selectedCategory === category
+      ? { backgroundColor: '#333', color: 'white' }
+      : {}
+  }
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category)
+    updateCategory(category)
+  }
 
   const checkProductInCart = product => {
     return cart.some(item => item.id === product.id)
@@ -19,39 +33,91 @@ export function ProductsPage() {
       (filters.category === 'all' && item.price <= filters.maxPrice),
   )
 
+  const searchedItems = filteredItems.filter(item => {
+    return item.description.toLowerCase().includes(filters.search.toLowerCase())
+  })
+
+  const handleSearch = debounce(e => {
+    let searchValue = e.target.value
+    updateSearch(searchValue)
+  }, 500)
+
   return (
     <div className='products-section'>
       <div className='header'>
         <h1>Categories</h1>
         <div className='categories'>
-          <button onClick={() => updateCategory('all')}>All</button>
-          <button onClick={() => updateCategory('furniture')}>
+          <button
+            onClick={() => handleCategoryClick('all')}
+            style={getButtonStyle('all')}
+          >
+            All
+          </button>
+          <button
+            onClick={() => handleCategoryClick('furniture')}
+            style={getButtonStyle('furniture')}
+          >
             Furnitures
           </button>
-          <button onClick={() => updateCategory('electronic')}>
+          <button
+            onClick={() => handleCategoryClick('electronic')}
+            style={getButtonStyle('electronic')}
+          >
             Electronics
           </button>
-          <button onClick={() => updateCategory('lamp')}>Lamps</button>
-          <button onClick={() => updateCategory('kitchen')}>Kitchen</button>
-          <button onClick={() => updateCategory('chair')}>Chairs</button>
-          <button onClick={() => updateCategory('skin-care')}>Skin Care</button>
+          <button
+            onClick={() => handleCategoryClick('lamp')}
+            style={getButtonStyle('lamp')}
+          >
+            Lamps
+          </button>
+          <button
+            onClick={() => handleCategoryClick('kitchen')}
+            style={getButtonStyle('kitchen')}
+          >
+            Kitchen
+          </button>
+          <button
+            onClick={() => handleCategoryClick('chair')}
+            style={getButtonStyle('chair')}
+          >
+            Chairs
+          </button>
+          <button
+            onClick={() => handleCategoryClick('skin-care')}
+            style={getButtonStyle('skin-care')}
+          >
+            Skin Care
+          </button>
         </div>
-        <div className='max-price-container'>
-          <label htmlFor='maxPrice'>Max Price: </label>
-          <input
-            type='range'
-            min='50'
-            max='1000'
-            step={10}
-            value={filters.maxPrice}
-            onChange={e => updateMaxPrice(e.target.value)}
-            name='maxPrice'
-          />
-          <p>${filters.maxPrice}</p>
+        <div className='filters-container'>
+          <div className='filters'>
+            <label htmlFor='searchInput'>Search: </label>
+            <input
+              type='text'
+              id='searchInput'
+              placeholder='Search for products...'
+              onChange={handleSearch}
+              className='search-input'
+            />
+          </div>
+          <div className='filters'>
+            <label htmlFor='maxPrice'>Max Price: </label>
+            <input
+              type='range'
+              min='50'
+              max='1000'
+              step={10}
+              value={filters.maxPrice}
+              onChange={e => updateMaxPrice(e.target.value)}
+              name='maxPrice'
+            />
+            <p>${filters.maxPrice}</p>
+          </div>
         </div>
       </div>
       <div className='products-container'>
-        {filteredItems.map(data => {
+        {searchedItems.map(data => {
           const isProductInCart = checkProductInCart(data)
 
           return (
@@ -70,7 +136,9 @@ export function ProductsPage() {
                   }}
                 >
                   <button onClick={() => removeQuantity(data)}>-</button>
-                  <p style={{fontSize: '2.4rem'}}>{cart.find(item => item.id === data.id)?.quantity || 0}</p>
+                  <p style={{ fontSize: '2.4rem' }}>
+                    {cart.find(item => item.id === data.id)?.quantity || 0}
+                  </p>
                   <button onClick={() => addToCart(data)}>+</button>
                 </div>
                 <p>{data.text}</p>
