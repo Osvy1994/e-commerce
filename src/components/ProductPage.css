@@ -137,6 +137,10 @@
   .categories button {
     padding: 8px 16px;
   }
+
+  .filters-container {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 480px) {
