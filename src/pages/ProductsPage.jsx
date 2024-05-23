@@ -154,6 +154,13 @@ export function ProductsPage() {
           )
         })}
       </div>
+      {searchedItems.length < 1 && (
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <p style={{ fontSize: '6rem', textAlign: 'center', marginBottom: '200px', marginTop: '120px' }}>
+            No products found...
+          </p>
+        </div>
+      )}
       <Newsletter />
       <Footer />
       <ToastContainer
